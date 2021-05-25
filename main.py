@@ -28,9 +28,10 @@ def get_csv(query, keywords):
         i += 1
         print('Currently at page ' + str(i))
 
-        url = "https://www.olx.pl/praca/krakow" + '/q-' + query + '/?page=' + str(i)
+        url = 'https://www.olx.pl/praca/krakow' + '/q-' + query + '/?page=' + str(i)
         req = requests.get(url, headers)
         if len(req.history) > 1:
+            print('Task completed')
             break
         soup = BeautifulSoup(req.content, 'html.parser')
 
@@ -71,7 +72,6 @@ def get_csv(query, keywords):
 
             for token in doc:
                 if token.lemma_ in keywords:
-                    print(token.text)
                     has_keyword = True
 
             data_row = [str_name, str_link, salary, str(ward), has_keyword]
@@ -83,7 +83,7 @@ def get_csv(query, keywords):
     df.to_csv('export.csv', index=False, sep=';', encoding='utf-8')
 
 
-query_text = 'student' # Query for the OLX search engine
+query_text = 'student'  # Query for the OLX search engine
 kwds = ['uczeń', 'maturzysta']
 
 get_csv(query_text, kwds)
