@@ -37,7 +37,7 @@ class Offer:
 
     def __str__(self):
         ret = self.name + '\n' + self.URL + '\n' + str(self.price) + ' zł\n' + self.district + ', Kraków\n' + self.date_added + '\n\n'
-        ret += self.description + '\n\n' + str(self.has_keywords) + '\n___________________________\n'
+        ret += self.description + '\n\n' + '\n___________________________\n'
         return ret
 
 
@@ -177,11 +177,12 @@ class OLXWebScraper:
             self.offers = []
 
     def check_for_keywords_in_description(self, keywords):
+        print("Looking for offers by keywords...")
         resulting_offers = []
         i = 0
         for offer in self.offers:
             i += 1
-            if i % 10 == 0:
+            if i % 30 == 0:
                 print(str(round(i / len(self.offers) * 100, 2)) + "%")
             offer.check_for_keywords_in_description(keywords)
             if offer.has_keywords:
@@ -190,6 +191,7 @@ class OLXWebScraper:
         print("________________________________________")
         for offer in resulting_offers:
             print(offer)
+        return resulting_offers
 
 
 def transform_keywords(kwds):
@@ -201,7 +203,7 @@ def transform_keywords(kwds):
 def main():
     search_URL = 'https://www.olx.pl/nieruchomosci/mieszkania/krakow'
     query = ''  # Query for the OLX search engine, if there is none, leave empty string
-    keywords = ['garaż', 'dwupokojowe']
+    keywords = ['garaż', 'dwupokojowe', 'drugie piętro']
     keywords = transform_keywords(keywords)
 
     print("Done")
